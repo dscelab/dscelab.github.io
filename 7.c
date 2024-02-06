@@ -15,9 +15,9 @@ int main()
     scanf("%d", &mc);
 
     printf("Enter the matrix\n");
-    for (i = 1; i <= mr; i++)
+    for (i = 0; i < mr; i++)
     {
-        for (j = 1; j <= mc; j++)
+        for (j = 0; j < mc; j++)
         {
             scanf("%d", &mat[i][j]);
             if (mat[i][j] != 0)
@@ -28,43 +28,43 @@ int main()
     }
 
     sr = nzero + 1;
-    sparse[1][1] = mr;
-    sparse[1][2] = mc;
-    sparse[1][3] = nzero;
-    s = 2;
+    sparse[0][0] = mr;
+    sparse[0][1] = mc;
+    sparse[0][2] = nzero;
+    s = 1;
 
-    for (i = 1; i <= mr; i++)
+    for (i = 0; i < mr; i++)
     {
-        for (j = 1; j <= mc; j++)
+        for (j = 0; j < mc; j++)
         {
             if (mat[i][j] != 0)
             {
-                sparse[s][1] = i;
-                sparse[s][2] = j;
-                sparse[s][3] = mat[i][j];
+                sparse[s][0] = i;
+                sparse[s][1] = j;
+                sparse[s][2] = mat[i][j];
                 s++;
             }
         }
     }
 
     printf("\nSparse matrix is \n");
-    for (i = 1; i <= sr; i++)
+    printf("Row\tCol\tValue\n");
+    for (i = 1; i < sr; i++)
     {
-        for (j = 1; j <= 3; j++)
+        for (j = 0; j < 3; j++)
         {
-            printf("%d ", sparse[i][j]);
+            printf("%d\t", sparse[i][j]);
         }
         printf("\n");
     }
-
     printf("Enter the element to be searched\n");
     scanf("%d", &elem);
 
-    for (i = 2; i < sr; i++)
+    for (i = 1; i < sr; i++)
     {
-        if (sparse[i][3] == elem)
+        if (sparse[i][2] == elem)
         {
-            printf("Element found at (row,col)=(%d,%d)\n", sparse[i][1], sparse[i][2]);
+            printf("Element found at (row,col)=(%d,%d)\n", sparse[i][0], sparse[i][1]);
             return 0;
         }
     }
