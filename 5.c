@@ -13,7 +13,7 @@ void insert()
     {
         if (f == -1)
             f = 0;
-        printf("Enter the item to be inserted:\n"); // Changed "items" to "item"
+        printf("Enter the item to be inserted:\n");
         scanf("%d", &item);
         q[++r] = item;
     }
@@ -29,7 +29,7 @@ void delete1()
         printf("UNDERFLOW!!!");
     }
     else
-        printf("Item deleted = %d", q[f++]); // Added space after "=" for better formatting
+        printf("Item deleted = %d", q[f++]);
 }
 
 void display()
@@ -50,7 +50,7 @@ int main()
     int ch;
     for (;;)
     {
-        printf("\n1: INSERT\n2: DELETE\n3: DISPLAY\n4: EXIT\n"); // Capitalized menu options for consistency
+        printf("\n1: INSERT\n2: DELETE\n3: DISPLAY\n4: EXIT\n");
         scanf("%d", &ch);
         switch (ch)
         {
