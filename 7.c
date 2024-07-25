@@ -1,59 +1,61 @@
 #include <stdio.h>
 
-#define MAX_SIZE 100
-#define INF 9999
-#define NIL -1
-
-void kruskal(int adj[MAX_SIZE][MAX_SIZE], int N) {
-	int parent[MAX_SIZE] ;	
-	int i, j, count = 0;
-
-	for (i = 0; i < N; i++) parent[i] = i;
-	
-	printf ("Minimum Spanning Tree : \n");	
-	
-	while (count < N) {
-		int min = INF, u = NIL, v = NIL;
-		for (i = 0; i < N; i++) {
-			for (j = 0; j < N; j++) {
-				if (adj[i][j] < min) {
-					min = adj[i][j];
-					u = i;
-					v = j;				
-				}	
-			}		
-		}
-		int p1 = u, p2 = v;
-		while (parent[p1] != p1) p1 = parent[p1];
-		while (parent[p2] != p2) p2 = parent[p2];
-		
-		if (p1 != p2) {
-			printf ("%d - %d\n", (u + 1), (v + 1));
-			adj[u][v] = INF;
-			adj[v][u] = INF;
-			if (u < v) parent[u] = v;
-			else parent[v] = u;		
-		}
-		count++;		
-	}	
+int max(int a, int b) {
+    return (a > b) ? a : b;
 }
 
 int main() {
-	
-	printf ("Kruskal Algorithm\n");
-	
-	int arr[MAX_SIZE][MAX_SIZE], N;
-	int i, j;
-	
-	printf ("Enter number of vertices\n");	
-	scanf ("%d", &N);
+    int n, i, j, capacity;
+    int weight[20], value[20], w;
+    int v[50][50];
 
-	printf ("Enter %d X %d adj matrix\n", N, N);
-	for (i = 0; i < N; i++)
-		for (j = 0; j < N; j++)
-			scanf ("%d", &arr[i][j]);
+    printf("Enter the number of items: ");
+    scanf("%d", &n);
 
-	kruskal(arr, N);
-	
-	return 0;
+    printf("Enter weights:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &weight[i]);
+    }
+
+    printf("Enter values:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &value[i]);
+    }
+
+    printf("Enter the capacity of the knapsack: ");
+    scanf("%d", &capacity);
+
+    // Initialize the matrix
+    for (i = 0; i <= n; i++) {
+        for (j = 0; j <= capacity; j++) {
+            if (i == 0 || j == 0) {
+                v[i][j] = 0;
+            } else if (j - weight[i-1] >= 0) {
+                v[i][j] = max(v[i-1][j], v[i-1][j-weight[i-1]] + value[i-1]);
+            } else {
+                v[i][j] = v[i-1][j];
+            }
+        }
+    }
+
+    // Print the matrix
+    for (i = 0; i <= n; i++) {
+        for (j = 0; j <= capacity; j++) {
+            printf("%4d", v[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Determine which items are in the knapsack
+    w = capacity;
+    printf("Items in the knapsack:\n");
+    for (i = n; i > 0; i--) {
+        if (v[i][w] != v[i-1][w]) {
+            printf("%3d ", i);
+            w -= weight[i-1];
+        }
+    }
+    printf("\nTotal profit = %d\n", v[n][capacity]);
+
+    return 0;
 }
